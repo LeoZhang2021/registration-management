@@ -40,9 +40,50 @@ int main(int argc, char **argv) {
 }
 
 bool handle_request(request *r, int *seats, int reservation_number) {
+
+    if(r->type == 'R')
+    {
+        int i = 0;
+        int sum = 0;
+
+        for(int j = 0; j < 100; ++j)
+        {
+            if(*(seats+j) == 0)
+            {
+                sum++;
+            }
+        }
+
+        if(sum < r->number)
+        {
+            return false;
+        }
+        
+        while(i < ((r->number+1)/2)*2)
+        {
+            if(*seats == 0)
+            {
+                *seats = reservation_number;
+                i++;
+            }
+            seats++;
+        }
+        return true;
+    }
+    else
+    {
+        while(*seats <= r->number)
+        {
+            if(*seats == r->number)
+            {
+                *seats = 0;
+            }
+            seats++;
+        }
+        return true;
+    }
     return false;
 }
-
 
 /****** Do not change anything below this line -- Internal Functionality Only ********/
 
